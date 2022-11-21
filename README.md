@@ -5,55 +5,36 @@
 
 
 # QDax: Accelerated Quality-Diversity
-QDax is a tool to accelerate Quality-Diversity (QD) and neuro-evolution algorithms through hardware accelerators and massive parallelization. QD algorithms usually take days/weeks to run on large CPU clusters. With QDax, QD algorithms can now be run in minutes! ⏩ ⏩ 🕛
-
-QDax has been developed as a research framework: it is flexible and easy to extend and build on and can be used for any problem setting. Get started with simple example and run a QD algorithm in minutes here! [![Open All Collab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/adaptive-intelligent-robotics/QDax/blob/main/notebooks/mapelites_example.ipynb)
-
+[Fork](https://github.com/adaptive-intelligent-robotics/QDax) of the QDax Library.
 - QDax [paper](https://arxiv.org/abs/2202.01258)
 - QDax [documentation](https://qdax.readthedocs.io/en/latest/)
 
 
 ## Installation
-QDax is available on PyPI and can be installed with:
 ```bash
-pip install qdax
+conda env create -f environment.yaml
 ```
-Alternatively, the latest commit of QDax can be installed directly from source with:
-```bash
-pip install git+https://github.com/adaptive-intelligent-robotics/QDax.git@main
-```
-Installing QDax via ```pip``` installs a CPU-only version of JAX by default. To use QDax with NVidia GPUs, you must first install [CUDA, CuDNN, and JAX with GPU support](https://github.com/google/jax#installation).
+Tested on Ubuntu 16.04 with Cuda 11.8 runtime and nvidia Driver Version: 520.56.06
 
-However, we also provide and recommend using either Docker, Singularity or conda environments to use the repository which by default provides GPU support. Detailed steps to do so are available in the [documentation](https://qdax.readthedocs.io/en/latest/installation/).
+If you have trouble creating the conda environment b/c of GPU or driver differences, see the [jax documentation](https://github.com/google/jax#installation)
+under "pip installation: GPU (CUDA)" 
 
-## Basic API Usage
-For a full and interactive example to see how QDax works, we recommend starting with the tutorial-style [Colab notebook](./notebooks/mapelites_example.ipynb). It is an example of the MAP-Elites algorithm used to evolve a population of controllers on a chosen Brax environment (Walker by default).
-
-However, a summary of the main API usage is provided below:
+To install without GPU, create a conda environment from scratch and 
 ```python
-import qdax
-from qdax.core.map_elites import MAPElites
+pip install requirements.txt
+```
+To get the basic python packages installed. Then install nvidia-cuda-toolkit, cuda, and drivers appropriate to your system. 
 
-# Instantiate MAP-Elites
-map_elites = MAPElites(
-    scoring_function=scoring_fn,
-    emitter=mixing_emitter,
-    metrics_function=metrics_function,
-)
 
-# Initializes repertoire and emitter state
-repertoire, emitter_state, random_key = map_elites.init(init_variables, centroids, random_key)
+## Running PGA-ME
+### Basic Usage 
+```python
+python3 scripts/train_pga_me.py --env_name=walker2d_uni --seed=42 --num_iterations=100
+```
 
-# Run MAP-Elites loop
-for i in range(num_iterations):
-    (repertoire, emitter_state, metrics, random_key,) = map_elites.update(
-            repertoire,
-            emitter_state,
-            random_key,
-        )
-
-# Get contents of repertoire
-repertoire.genotypes, repertoire.fitnesses, repertoire.descriptors
+A full list of configurable command line args can be found under ```scripts/train_pga_me.py``` or by calling
+```python
+python3 scripts/train_pga_me.py --help
 ```
 
 
