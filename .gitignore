@@ -1,6 +1,7 @@
 # added elements
 wandb/
 logs/
+experiments/
 
 .vscode
 last_repertoire

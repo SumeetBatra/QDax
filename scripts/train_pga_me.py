@@ -5,13 +5,14 @@ import time
 import functools
 import argparse
 import wandb
+import shutil
 
 import jax
 import jax.numpy as jnp
 
 from attrdict import AttrDict
 from distutils.util import strtobool
-from utils.utils import log, config_wandb
+from utils.utils import log, config_wandb, get_checkpoints
 
 from qdax.core.map_elites import MAPElites
 from qdax.core.containers.mapelites_repertoire import compute_cvt_centroids
@@ -200,11 +201,20 @@ def run():
     log_period = cfg.log_period
     num_loops = int(cfg.num_iterations / log_period)
 
-    logdir = './logs'
+    experiment_dir = './experiments'
+    experiment_dir = os.path.join(experiment_dir, cfg.run_name)
+    if not os.path.exists(experiment_dir):
+        os.makedirs(experiment_dir)
+
+    logdir = os.path.join(experiment_dir, "logs")
     if not os.path.exists(logdir):
         os.mkdir(logdir)
     filename = f'{cfg.run_name}.csv'
     filepath = os.path.join(logdir, filename)
+
+    checkpoint_dir = os.path.join(experiment_dir, "checkpoints")
+    if not os.path.exists(checkpoint_dir):
+        os.mkdir(checkpoint_dir)
 
     csv_logger = CSVLogger(
         filepath,
@@ -224,6 +234,15 @@ def run():
             length=log_period,
         )
         timelapse = time.time() - start_time
+
+        # save a checkpoint and delete older ones
+        checkpoint_path = os.path.join(checkpoint_dir, f'checkpoint_{i:05d}/')
+        os.mkdir(checkpoint_path)
+        repertoire.save(checkpoint_path)
+        if len(os.listdir(checkpoint_dir)) > 3:
+            oldest_checkpoint_rel_path = list(sorted(os.listdir(checkpoint_dir)))[0]
+            oldest_checkpoint = os.path.join(checkpoint_dir, oldest_checkpoint_rel_path)
+            shutil.rmtree(oldest_checkpoint)
 
         # log metrics
         logged_metrics = {"time": timelapse, "loop": 1 + i, "iteration": 1 + i * log_period}
