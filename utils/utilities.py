@@ -26,7 +26,7 @@ formatter = ColoredFormatter(
 )
 ch.setFormatter(formatter)
 
-fh = logging.FileHandler('logs/runlog.txt')
+fh = logging.FileHandler('logs/log.txt')
 fh.setLevel(logging.DEBUG)
 fh.setFormatter(formatter)
 

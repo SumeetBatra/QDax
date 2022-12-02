@@ -12,7 +12,7 @@ import jax.numpy as jnp
 
 from attrdict import AttrDict
 from distutils.util import strtobool
-from utils.utils import log, config_wandb, get_checkpoints
+from utils.utilities import log, config_wandb, get_checkpoints
 
 from qdax.core.map_elites import MAPElites
 from qdax.core.containers.mapelites_repertoire import compute_cvt_centroids
@@ -32,7 +32,7 @@ def parse_args():
     parser.add_argument('--seed', type=int)
     parser.add_argument('--episode_length', type=int, default=100)
     parser.add_argument('--num_iterations', type=int)
-    parser.add_argument('--policy_hidden_layer_sizes', type=tuple, default=(64, 64))
+    parser.add_argument('--policy_hidden_layer_sizes', type=int, action='append')
     parser.add_argument('--iso_sigma', type=float, default=0.005)
     parser.add_argument('--line_sigma', type=float, default=0.05)
     parser.add_argument('--use_wandb', type=lambda x: bool(strtobool(x)), default=False)
@@ -49,7 +49,7 @@ def parse_args():
     # td3 params
     parser.add_argument('--env_batch_size', type=int, default=100)
     parser.add_argument('--replay_buffer_size', type=int, default=1000000)
-    parser.add_argument('--critic_hidden_layer_size', type=tuple, default=(256, 256))
+    parser.add_argument('--critic_hidden_layer_size', type=int, action='append')
     parser.add_argument('--critic_learning_rate', type=float, default=3e-4)
     parser.add_argument('--greedy_learning_rate', type=float, default=3e-4)
     parser.add_argument('--policy_learning_rate', type=float, default=1e-3)
