@@ -253,8 +253,8 @@ def run():
             if cfg.use_wandb:
                 wandb.log({
                     'loop': i + 1,
-                    'iteration': i + 1 * log_period,
-                    f'{key}': value
+                    'iteration': (i + 1) * log_period,
+                    f'{key}': logged_metrics[key]
                 })
 
             # take all values
