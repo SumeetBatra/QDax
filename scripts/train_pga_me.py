@@ -71,6 +71,8 @@ def run():
     cfg = parse_args()
     if cfg.use_wandb:
         config_wandb(project='QDPPO', entity='qdrl', group=cfg.wandb_group, run_name=cfg.run_name, cfg=cfg)
+    for key, val in cfg.items():
+        log.debug(f'{key}: {val}')
 
     # Init environment
     env = environments.create(cfg.env_name, episode_length=cfg.episode_length)
