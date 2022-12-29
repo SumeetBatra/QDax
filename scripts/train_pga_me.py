@@ -75,7 +75,7 @@ def run():
         log.debug(f'{key}: {val}')
 
     # Init environment
-    env = environments.create(cfg.env_name, episode_length=cfg.episode_length)
+    env = environments.create(cfg.env_name, episode_length=cfg.episode_length, ctrl_cost_weight=0.01)
 
     # Init a random key
     random_key = jax.random.PRNGKey(cfg.seed)

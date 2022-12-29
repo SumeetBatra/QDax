@@ -2,7 +2,7 @@
 #SBATCH --gres=gpu:1
 #SBATCH -N1
 #SBATCH -n1
-#SBATCH -c4
+#SBATCH -c20
 #SBATCH --output=tmp/pga_me_ant_uni_%j.log
 
 ENV_NAME="ant_uni"
