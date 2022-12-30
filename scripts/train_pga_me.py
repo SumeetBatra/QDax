@@ -75,7 +75,7 @@ def run():
         log.debug(f'{key}: {val}')
 
     # Init environment
-    env = environments.create(cfg.env_name, episode_length=cfg.episode_length, ctrl_cost_weight=0.01)
+    env = environments.create(cfg.env_name, episode_length=cfg.episode_length)
 
     # Init a random key
     random_key = jax.random.PRNGKey(cfg.seed)
@@ -241,7 +241,7 @@ def run():
         checkpoint_path = os.path.join(checkpoint_dir, f'checkpoint_{i:05d}/')
         os.mkdir(checkpoint_path)
         repertoire.save(checkpoint_path)
-        if len(os.listdir(checkpoint_dir)) > 3:
+        if len(os.listdir(checkpoint_dir)) > 1:
             oldest_checkpoint_rel_path = list(sorted(os.listdir(checkpoint_dir)))[0]
             oldest_checkpoint = os.path.join(checkpoint_dir, oldest_checkpoint_rel_path)
             shutil.rmtree(oldest_checkpoint)
