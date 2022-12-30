@@ -19,4 +19,5 @@ srun python -m scripts.train_pga_me --env_name="$ENV_NAME" \
                                     --use_wandb=True \
                                     --critic_hidden_layer_size=256 \
                                     --critic_hidden_layer_size=256 \
-                                    --env_batch_size=100
+                                    --env_batch_size=100 \
+                                    --ctrl_cost_weight=0.001

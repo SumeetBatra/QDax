@@ -61,6 +61,8 @@ def parse_args():
     parser.add_argument('--soft_tau_update', type=float, default=0.005)
     parser.add_argument('--num_critic_training_steps', type=int, default=300)
     parser.add_argument('--num_pg_training_steps', type=int, default=100)
+    # env params
+    parser.add_argument('--ctrl_cost_weight', type=float)
 
     args = parser.parse_args()
     cfg = AttrDict(vars(args))
@@ -75,7 +77,7 @@ def run():
         log.debug(f'{key}: {val}')
 
     # Init environment
-    env = environments.create(cfg.env_name, episode_length=cfg.episode_length)
+    env = environments.create(cfg.env_name, episode_length=cfg.episode_length, ctrl_cost_weight=cfg.ctrl_cost_weight)
 
     # Init a random key
     random_key = jax.random.PRNGKey(cfg.seed)
