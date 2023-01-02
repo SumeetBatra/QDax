@@ -61,8 +61,6 @@ def parse_args():
     parser.add_argument('--soft_tau_update', type=float, default=0.005)
     parser.add_argument('--num_critic_training_steps', type=int, default=300)
     parser.add_argument('--num_pg_training_steps', type=int, default=100)
-    # env params
-    parser.add_argument('--ctrl_cost_weight', type=float)
 
     args = parser.parse_args()
     cfg = AttrDict(vars(args))
@@ -77,7 +75,7 @@ def run():
         log.debug(f'{key}: {val}')
 
     # Init environment
-    env = environments.create(cfg.env_name, episode_length=cfg.episode_length, ctrl_cost_weight=cfg.ctrl_cost_weight)
+    env = environments.create(cfg.env_name, episode_length=cfg.episode_length)
 
     # Init a random key
     random_key = jax.random.PRNGKey(cfg.seed)
@@ -207,8 +205,9 @@ def run():
 
     experiment_dir = './experiments'
     experiment_dir = os.path.join(experiment_dir, cfg.run_name)
-    if not os.path.exists(experiment_dir):
-        os.makedirs(experiment_dir)
+    assert not os.path.exists(experiment_dir), f'Error: {experiment_dir=} already exists. Danger of overriding ' \
+                                               f'existing experiment.'
+    os.makedirs(experiment_dir)
 
     logdir = os.path.join(experiment_dir, "logs")
     if not os.path.exists(logdir):
