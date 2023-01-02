@@ -6,7 +6,7 @@
 # then from the project root dir you can run ./scripts/train_pga_me.sh
 
 PROJECT_PATH="/home/sumeet/QDax/"
-ENV_NAME="ant_uni"
+ENV_NAME="halfcheetah_uni"
 NUM_CENTROIDS=2500
 
 BASE_CLI_ARGS="--episode_length=1000 \
@@ -18,7 +18,7 @@ BASE_CLI_ARGS="--episode_length=1000 \
               --critic_hidden_layer_size=256 \
               --env_batch_size=300"
 
-set -- 1111 2222 3333 4444
+set -- 1111 2222 3333 4444  # seeds
 
 for item in "$@";
  do echo "Running seed $item";
