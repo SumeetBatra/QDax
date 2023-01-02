@@ -6,17 +6,17 @@
 # then from the project root dir you can run ./scripts/train_pga_me.sh
 
 PROJECT_PATH="/home/sumeet/QDax/"
-ENV_NAME="walker2d_uni"
-NUM_CENTROIDS=10000 # since we use 100x100 archive in walker2d, set num_centroids to be 1e4
+ENV_NAME="ant_uni"
+NUM_CENTROIDS=2500
 
 BASE_CLI_ARGS="--episode_length=1000 \
-              --num_iterations=10000 \
+              --num_iterations=4000 \
               --policy_hidden_layer_sizes=128 \
               --policy_hidden_layer_sizes=128 \
               --use_wandb=True \
               --critic_hidden_layer_size=256 \
               --critic_hidden_layer_size=256 \
-              --env_batch_size=100"
+              --env_batch_size=300"
 
 set -- 1111 2222 3333 4444
 
