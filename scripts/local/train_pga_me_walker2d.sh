@@ -5,7 +5,7 @@
 # ENV_NAME: which environment to run on (see qdax/environments/__init__.py for a list of all runnable envs)
 # then from the project root dir you can run ./scripts/train_pga_me.sh
 
-ENV_NAME="humanoid_uni"
+ENV_NAME="walker2d_uni"
 GRID_SIZE=50
 
 set -- 1111 2222 3333 4444  # seeds
