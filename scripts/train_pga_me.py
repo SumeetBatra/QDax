@@ -15,7 +15,7 @@ from distutils.util import strtobool
 from utils.utilities import log, config_wandb, get_checkpoints
 
 from qdax.core.map_elites import MAPElites
-from qdax.core.containers.mapelites_repertoire import compute_cvt_centroids
+from qdax.core.containers.mapelites_repertoire import compute_euclidean_centroids
 from qdax import environments
 from qdax.core.neuroevolution.mdp_utils import scoring_function
 from qdax.core.neuroevolution.buffers.buffer import QDTransition
@@ -39,9 +39,8 @@ def parse_args():
     parser.add_argument('--run_name', type=str, default='pga_me_test_run')
     parser.add_argument('--wandb_group', type=str, default='PGA-ME')
     parser.add_argument('--log_period', type=int, default=10)
-    # cvt map elites params
-    parser.add_argument('--num_init_cvt_samples', type=int, default=50000)
-    parser.add_argument('--num_centroids', type=int, default=1024)
+    # grid archive params
+    parser.add_argument('--grid_size', type=int, help='Number of cells per archive dimension')
     # pga-me params
     parser.add_argument('--min_bd', type=float, default=0.)
     parser.add_argument('--max_bd', type=float, default=1.0)
@@ -186,13 +185,11 @@ def run():
     )
 
     # Compute the centroids
-    centroids, random_key = compute_cvt_centroids(
-        num_descriptors=env.behavior_descriptor_length,
-        num_init_cvt_samples=cfg.num_init_cvt_samples,
-        num_centroids=cfg.num_centroids,
+    grid_shape = (cfg.grid_size,) * env.behavior_descriptor_length
+    centroids = compute_euclidean_centroids(
+        grid_shape=grid_shape,
         minval=cfg.min_bd,
         maxval=cfg.max_bd,
-        random_key=random_key,
     )
 
     # compute initial repertoire

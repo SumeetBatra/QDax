@@ -5,9 +5,8 @@
 # ENV_NAME: which environment to run on (see qdax/environments/__init__.py for a list of all runnable envs)
 # then from the project root dir you can run ./scripts/train_pga_me.sh
 
-PROJECT_PATH="/home/sumeet/QDax/"
 ENV_NAME="halfcheetah_uni"
-NUM_CENTROIDS=2500
+GRID_SIZE=50
 
 set -- 1111 2222 3333 4444  # seeds
 
@@ -18,7 +17,7 @@ for item in "$@";
  python -m scripts.train_pga_me --env_name="$ENV_NAME" \
                                  --seed="$item" \
                                  --run_name=$RUN_NAME \
-                                 --num_centroids=$NUM_CENTROIDS \
+                                 --grid_size=$GRID_SIZE \
                                  --episode_length=1000 \
                                  --num_iterations=4000 \
                                  --policy_hidden_layer_sizes=128 \
