@@ -218,7 +218,7 @@ def run():
 
     csv_logger = CSVLogger(
         filepath,
-        header=["loop", "iteration", "qd_score", "max_fitness", "coverage", "time"]
+        header=["loop", "iteration", "qd_score", "max_fitness", "avg_fitness", "coverage", "time"]
     )
     all_metrics = {}
 
