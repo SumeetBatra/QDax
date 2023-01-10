@@ -12,7 +12,7 @@ set -- 1111 2222 3333 4444  # seeds
 
 for item in "$@";
  do echo "Running seed $item";
- RUN_NAME="pga_me_"$ENV_NAME"_baseline_seed_"$item
+ RUN_NAME="pga_me_"$ENV_NAME"_baseline_seed_"$item"_v2"
  echo $RUN_NAME
  python -m scripts.train_pga_me --env_name="$ENV_NAME" \
                                  --seed="$item" \
