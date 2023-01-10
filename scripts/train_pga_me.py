@@ -6,6 +6,7 @@ import functools
 import argparse
 import wandb
 import shutil
+import flax.linen as nn
 
 import jax
 import jax.numpy as jnp
@@ -83,6 +84,7 @@ def run():
     policy_layer_sizes = cfg.policy_hidden_layer_sizes + (env.action_size,)
     policy_network = MLP(
         layer_sizes=policy_layer_sizes,
+        activation=nn.tanh,
         kernel_init=jax.nn.initializers.lecun_uniform(),
         final_activation=jnp.tanh,
     )
