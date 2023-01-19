@@ -18,7 +18,7 @@ from utils.utilities import log, config_wandb, get_checkpoints
 from qdax.core.map_elites import MAPElites
 from qdax.core.containers.mapelites_repertoire import compute_euclidean_centroids
 from qdax import environments
-from qdax.core.neuroevolution.mdp_utils import scoring_function
+from qdax.tasks.brax_envs import scoring_function_brax_envs as scoring_function
 from qdax.core.neuroevolution.buffers.buffer import QDTransition
 from qdax.core.neuroevolution.networks.networks import MLP
 from qdax.core.emitters.mutation_operators import isoline_variation
