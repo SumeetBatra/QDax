@@ -22,6 +22,8 @@ from qdax.tasks.brax_envs import scoring_function_brax_envs as scoring_function
 from qdax.core.neuroevolution.buffers.buffer import QDTransition
 from qdax.core.neuroevolution.networks.networks import MLP
 from qdax.core.emitters.mutation_operators import isoline_variation
+from jax.flatten_util import ravel_pytree
+from qdax.core.containers.mapelites_repertoire import MapElitesRepertoire
 
 from qdax.core.emitters.pga_me_emitter import PGAMEConfig, PGAMEEmitter
 from qdax.utils.metrics import CSVLogger, default_qd_metrics
@@ -61,10 +63,24 @@ def parse_args():
     parser.add_argument('--soft_tau_update', type=float, default=0.005)
     parser.add_argument('--num_critic_training_steps', type=int, default=300)
     parser.add_argument('--num_pg_training_steps', type=int, default=100)
+    parser.add_argument('--load_repertoire_from_cp', type=str, default=None)
+    parser.add_argument('--iter', type=int, default=0)
 
     args = parser.parse_args()
     cfg = AttrDict(vars(args))
     return cfg
+
+
+def load_from_checkpoint(cp_path, policy_network, obs_size, random_key):
+    # Init population of policies
+    random_key, subkey = jax.random.split(random_key)
+    fake_batch = jnp.zeros(shape=(obs_size,))
+    fake_params = policy_network.init(subkey, fake_batch)
+
+    _, reconstruction_fn = ravel_pytree(fake_params)
+
+    repertoire = MapElitesRepertoire.load(reconstruction_fn=reconstruction_fn, path=cp_path)
+    return repertoire
 
 
 def run():
@@ -198,6 +214,9 @@ def run():
     repertoire, emitter_state, random_key = map_elites.init(
         init_variables, centroids, random_key
     )
+    if cfg.load_repertoire_from_cp is not None:
+        log.debug(f'Loading repertoire from checkpoint {cfg.load_repertoire_from_cp}')
+        repertoire = load_from_checkpoint(cfg.load_repertoire_from_cp, policy_network, env.observation_size, random_key)
 
     log_period = cfg.log_period
     num_loops = int(cfg.num_iterations / log_period)
@@ -224,8 +243,9 @@ def run():
     )
     all_metrics = {}
 
+    starting_iter = cfg.iter // log_period
     # main loop
-    for i in range(num_loops):
+    for i in range(starting_iter, num_loops):
         start_time = time.time()
         log.info(f'Loop {i}, Num Loops: {num_loops}, Progress: {(100.0 * (i / num_loops)):.2f}%')
         # main iterations
