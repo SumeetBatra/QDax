@@ -190,7 +190,7 @@ class MapElitesRepertoire(flax.struct.PyTreeNode):
             A MAP Elites Repertoire.
         """
 
-        flat_genotypes = jnp.load(path + "genotypes.npy")
+        flat_genotypes = jnp.load(path + "genotypes.npy", allow_pickle=True)
         genotypes = jax.vmap(reconstruction_fn)(flat_genotypes)
 
         fitnesses = jnp.load(path + "fitnesses.npy", allow_pickle=True)
