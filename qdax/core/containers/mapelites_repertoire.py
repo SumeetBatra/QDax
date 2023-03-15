@@ -193,9 +193,9 @@ class MapElitesRepertoire(flax.struct.PyTreeNode):
         flat_genotypes = jnp.load(path + "genotypes.npy")
         genotypes = jax.vmap(reconstruction_fn)(flat_genotypes)
 
-        fitnesses = jnp.load(path + "fitnesses.npy")
-        descriptors = jnp.load(path + "descriptors.npy")
-        centroids = jnp.load(path + "centroids.npy")
+        fitnesses = jnp.load(path + "fitnesses.npy", allow_pickle=True)
+        descriptors = jnp.load(path + "descriptors.npy", allow_pickle=True)
+        centroids = jnp.load(path + "centroids.npy", allow_pickle=True)
 
         return cls(
             genotypes=genotypes,
