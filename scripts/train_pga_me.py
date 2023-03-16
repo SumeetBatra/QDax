@@ -262,7 +262,7 @@ def run():
         checkpoint_path = os.path.join(checkpoint_dir, f'checkpoint_{i:05d}/')
         os.mkdir(checkpoint_path)
         repertoire.save(checkpoint_path)
-        if len(os.listdir(checkpoint_dir)) > 1:
+        if len(os.listdir(checkpoint_dir)) > 2:
             oldest_checkpoint_rel_path = list(sorted(os.listdir(checkpoint_dir)))[0]
             oldest_checkpoint = os.path.join(checkpoint_dir, oldest_checkpoint_rel_path)
             shutil.rmtree(oldest_checkpoint)
