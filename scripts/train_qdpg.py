@@ -273,9 +273,10 @@ def run():
 
     experiment_dir = './experiments'
     experiment_dir = os.path.join(experiment_dir, cfg.run_name)
-    assert not os.path.exists(experiment_dir), f'Error: {experiment_dir=} already exists. Danger of overriding ' \
-                                               f'existing experiment.'
-    os.makedirs(experiment_dir)
+    if cfg.load_repertoire_from_cp is None:
+        assert not os.path.exists(experiment_dir), f'Error: {experiment_dir=} already exists. Danger of overriding ' \
+                                                   f'existing experiment.'
+    os.makedirs(experiment_dir, exist_ok=True)
 
     logdir = os.path.join(experiment_dir, "logs")
     if not os.path.exists(logdir):

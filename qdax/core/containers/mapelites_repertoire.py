@@ -190,12 +190,12 @@ class MapElitesRepertoire(flax.struct.PyTreeNode):
             A MAP Elites Repertoire.
         """
 
-        flat_genotypes = jnp.load(path + "genotypes.npy", allow_pickle=True)
+        flat_genotypes = jnp.load(path + "genotypes.npy")
         genotypes = jax.vmap(reconstruction_fn)(flat_genotypes)
 
-        fitnesses = jnp.load(path + "fitnesses.npy", allow_pickle=True)
-        descriptors = jnp.load(path + "descriptors.npy", allow_pickle=True)
-        centroids = jnp.load(path + "centroids.npy", allow_pickle=True)
+        fitnesses = jnp.load(path + "fitnesses.npy")
+        descriptors = jnp.load(path + "descriptors.npy")
+        centroids = jnp.load(path + "centroids.npy")
 
         return cls(
             genotypes=genotypes,
@@ -343,7 +343,8 @@ class MapElitesRepertoire(flax.struct.PyTreeNode):
             (
                 "This type of repertoire does not store the extra scores "
                 "computed by the scoring function"
-            )
+            ),
+            stacklevel=2,
         )
 
         # retrieve one genotype from the population
@@ -386,7 +387,7 @@ class MapElitesRepertoire(flax.struct.PyTreeNode):
 
         # default genotypes is all 0
         default_genotypes = jax.tree_util.tree_map(
-            lambda x: jnp.zeros(shape=(num_centroids,) + x.shape),
+            lambda x: jnp.zeros(shape=(num_centroids,) + x.shape, dtype=x.dtype),
             genotype,
         )
 
