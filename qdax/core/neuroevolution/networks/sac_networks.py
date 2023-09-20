@@ -29,7 +29,7 @@ def make_sac_networks(
                 hk.nets.MLP(
                     list(hidden_layer_sizes) + [2 * action_size],
                     w_init=hk.initializers.VarianceScaling(1.0, "fan_in", "uniform"),
-                    activation=jax.nn.relu,
+                    activation=jax.nn.tanh,
                 ),
             ]
         )
@@ -41,7 +41,7 @@ def make_sac_networks(
                 hk.nets.MLP(
                     list(hidden_layer_sizes) + [1],
                     w_init=hk.initializers.VarianceScaling(1.0, "fan_in", "uniform"),
-                    activation=jax.nn.relu,
+                    activation=jax.nn.tanh,
                 ),
             ]
         )
