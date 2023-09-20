@@ -17,7 +17,7 @@ set -- 1111 2222 3333 4444  # seeds
 
 for item in "$@";
  do echo "Running seed $item";
- RUN_NAME="qdpg_"$ENV_NAME"_baseline_seed_"$item
+ RUN_NAME="pbt_me_"$ENV_NAME"_baseline_seed_"$item
  echo $RUN_NAME
  srun python -m scripts.train_pbt_me --env_name="$ENV_NAME" \
                                 --seed="$item" \
