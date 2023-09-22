@@ -10,7 +10,6 @@ import jax
 import jax.numpy as jnp
 import optax
 from brax.io import html
-from IPython.display import HTML
 from tqdm import tqdm
 from attrdict import AttrDict
 from distutils.util import strtobool
