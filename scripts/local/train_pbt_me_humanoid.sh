@@ -12,6 +12,6 @@ for item in "$@";
                                 --run_name="$RUN_NAME" \
                                 --grid_size=$GRID_SIZE \
                                 --num_iterations=10000 \
-                                --num_loops=625 \
+                                --num_loops=12500 \
                                 --use_wandb=True
 done
