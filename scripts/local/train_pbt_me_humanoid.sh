@@ -1,6 +1,8 @@
 ENV_NAME="humanoid_uni"
 GRID_SIZE=10  # number of cells per archive dimension
 
+export XLA_PYTHON_CLIENT_PREALLOCATE=false
+
 set -- 1111 2222 3333 4444  # seeds
 
 for item in "$@";
