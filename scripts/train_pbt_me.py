@@ -44,8 +44,14 @@ def parse_args():
 
     # emitter config
     parser.add_argument('--buffer_size', type=int, default=100000)
-    parser.add_argument('--pg_population_size_per_device', type=int, default=10)
-    parser.add_argument('--ga_population_size_per_device', type=int, default=30)
+    #  parser.add_argument('--pg_population_size_per_device', type=int, default=10)
+    #  parser.add_argument('--ga_population_size_per_device', type=int, default=30)
+    parser.add_argument('--pg_population_size_per_device',
+                        type=int,
+                        default=20)
+    parser.add_argument('--ga_population_size_per_device',
+                        type=int,
+                        default=60)
     parser.add_argument('--num_iterations', type=int)
     parser.add_argument('--env_batch_size', type=int, default=250)
     parser.add_argument('--grad_updates_per_step', type=float, default=1.0)
